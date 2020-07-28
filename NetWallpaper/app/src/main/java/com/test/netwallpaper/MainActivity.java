@@ -144,9 +144,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     public void logSentFriendRequestEvent () {
         AppEventsLogger logger = AppEventsLogger.newLogger(getApplicationContext());
-        logger.logEvent("sentFriendRequest");
+        logger.logEvent("WallPaperSetting");
     }
-
 
     //初始化权限
     private void initPermission(){

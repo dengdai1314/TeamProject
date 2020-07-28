@@ -1,5 +1,8 @@
 package com.test.netwallpaper.service;
 
+import android.app.WallpaperInfo;
+import android.app.WallpaperManager;
+import android.content.Context;
 import android.media.MediaPlayer;
 import android.os.Environment;
 import android.service.wallpaper.WallpaperService;
@@ -16,11 +19,21 @@ import java.io.IOException;
  */
 public class LiveWallpaperService extends WallpaperService {
 
+    private static final String SERVICE_NAME = "com.test.netwallpaper.service.LiveWallpaperService";
     private static final String TAG = "LiveWallpaperService";
 
     @Override
     public Engine onCreateEngine() {
         return new VideoEngine();
+    }
+
+    public static void startWallpaper(Context context,String videoPath){
+        WallpaperInfo info = WallpaperManager.getInstance(context).getWallpaperInfo();
+        if(info != null && SERVICE_NAME.equals(info.getServiceName())){
+            changeVideo(context,videoPath);
+        }else {
+            startNewWallpaper(context,videoPath);
+        }
     }
 
     public class VideoEngine extends Engine{
@@ -43,7 +56,6 @@ public class LiveWallpaperService extends WallpaperService {
             super.onSurfaceCreated(holder);
             Log.d("test","onSurfaceCreated");
             File file = new File(Environment.getExternalStorageDirectory(),"tes.mp4");
-            Log.d("test",file.getPath());
             mPlayer = new MediaPlayer();
             mPlayer.setSurface(holder.getSurface());
             try {

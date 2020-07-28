@@ -2,4 +2,6 @@
     <string name="app_name">NetWallpaper</string>
     <string name="facebook_app_id">294223075224151</string>
     <string name="fb_login_protocol_scheme">fb294223075224151</string>
+    <string name="title_activity_settings">SettingsActivity</string>
+
 </resources>
