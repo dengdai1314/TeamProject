@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:key="video_param"
+    android:title="设置">
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="loop"
+        android:title="是否循环播放"/>
+    <CheckBoxPreference
+        android:checked="false"
+        android:key="volume"
+        android:title="是否开启声音"/>
+</PreferenceScreen>
