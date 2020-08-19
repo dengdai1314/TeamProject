@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ClockView">
+        <attr name="borderColor" format="color"/>//自定义属性
+    </declare-styleable>
+</resources>

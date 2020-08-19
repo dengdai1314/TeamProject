@@ -1,4 +1,4 @@
-package com.test.testclock;
+package com.test.testclock.View;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -9,6 +9,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.Toast;
 
+import java.util.Calendar;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -16,7 +17,7 @@ import androidx.annotation.Nullable;
 
 /**
  * @author DoubleTick
- * @description
+ * @description  自定义时钟布局
  * @date 2020/8/14
  */
 public class ClockView extends View {
@@ -32,6 +33,7 @@ public class ClockView extends View {
     private float mSecondDegree;//秒针度数
     private float mMinDegree;//分针度数
     private float mHourDegree;//时针度数
+
     private Timer mTimer = new Timer();
     private TimerTask task = new TimerTask() {
         @Override
@@ -86,6 +88,7 @@ public class ClockView extends View {
         initPaint();
     }
 
+
     private void initPaint(){
         mPaint = new Paint();
         mPaint.setAntiAlias(true);//开启抗锯齿
@@ -93,65 +96,87 @@ public class ClockView extends View {
         mPaint.setStyle(Paint.Style.STROKE);//描边
         mPaint.setStrokeWidth(0);
         mPaint.setTextSize(25);
-        Paint.FontMetrics fontMetrics = mPaint.getFontMetrics();
-        float ascent = fontMetrics.ascent;
-        float bottom = fontMetrics.bottom;
-        float descent = fontMetrics.descent;
-        float leading = fontMetrics.leading;
-        float top = fontMetrics.top;
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        drawDial(canvas);
+//        drawDial(canvas,R.mipmap.ic_clock_dial);
         drawPointer(canvas);
     }
 
-    private void drawDial(Canvas canvas){
-        canvas.save();
-        //圆形边框
-        mPaint.setStrokeWidth(2);
-        mRadius = getWidth()/4;
-        mCircleX = getWidth()/2;
-        mCircleY = getHeight()/2;
+    /**
+     * 画表盘
+     * @param canvas
+     */
+    private void drawDial(Canvas canvas,int dial){
+//        canvas.save();
+//        Bitmap bitmap = BitmapFactory.decodeResource(getContext().getResources(), dial);
+//        Matrix matrix = new Matrix();
+//        float scale = 1.0f;//缩放比例
+//        // 获取bitmap宽高中的小值
+//        Log.d("bitmap","height"+bitmap.getHeight()+"width"+getWidth());
+//        int minBitMap = Math.min(bitmap.getWidth(), bitmap.getHeight());
+//        //取view宽高中的小值 尽量保证图片内容的显示
+//        int minValue = Math.min(getWidth(), getHeight());
+//
+//        //计算缩放比例  一定要*1.0f 因为int之间的计算结果会四舍五入0或1 效果就不美丽了
+//        scale = minValue * 1.0f / minBitMap;
+//        Log.d("scale",scale+"");
+//        //设置缩放比例
+//        matrix.setScale(scale, scale);
+//
+//        canvas.drawBitmap(bitmap,matrix,mPaint);
+//        canvas.restore();
 
-        canvas.drawCircle(mCircleX,mCircleY,mRadius,mPaint);
-        //圆心
-        mPaint.setStrokeWidth(5);
-        canvas.drawPoint(mCircleX,mCircleY,mPaint);
-
-        canvas.save();
-        //画刻度
-        //设置刻度线线宽
-        mPaint.setStrokeWidth(2);
-        //将坐标原点移到圆心处
-        canvas.translate(mCircleX,mCircleY);
-        for(int i=0;i<360;i++){
-            if (i % 30 == 0) {//长刻度
-                canvas.drawLine(mRadius - 25, 0,mRadius, 0, mPaint);
-            } else if (i % 6 == 0) {//中刻度*/
-                canvas.drawLine(mRadius - 14, 0,mRadius, 0, mPaint);
-            } else {//短刻度
-                canvas.drawLine(mRadius - 9, 0,mRadius, 0, mPaint);
-            }
-            canvas.rotate(1);
-        }
-        canvas.restore();
-
-        canvas.save();
-        //画刻度文字
-        canvas.translate(mCircleX,mCircleY);
-        for (int i=0;i<12;i++){
-            if (i == 0) {
-                drawNum(canvas, i * 30, 12 + "", mPaint);
-            } else {
-                drawNum(canvas, i * 30, i + "", mPaint);
-            }
-        }
-        canvas.restore();
+//        canvas.save();
+//        //圆形边框
+//        mPaint.setStrokeWidth(2);
+//        mRadius = (int) (getWidth()/2.5);
+//        mCircleX = getWidth()/2;
+//        mCircleY = getHeight()/2;
+//
+//        canvas.drawCircle(mCircleX,mCircleY,mRadius,mPaint);
+//        //圆心
+//        mPaint.setStrokeWidth(5);
+//        canvas.drawPoint(mCircleX,mCircleY,mPaint);
+//
+//        canvas.save();
+//        //画刻度
+//        //设置刻度线线宽
+//        mPaint.setStrokeWidth(2);
+//        //将坐标原点移到圆心处
+//        canvas.translate(mCircleX,mCircleY);
+//        for(int i=0;i<360;i++){
+//            if (i % 30 == 0) {//长刻度
+//                canvas.drawLine(mRadius - 25, 0,mRadius, 0, mPaint);
+//            } else if (i % 6 == 0) {//中刻度*/
+//                canvas.drawLine(mRadius - 14, 0,mRadius, 0, mPaint);
+//            } else {//短刻度
+//                canvas.drawLine(mRadius - 9, 0,mRadius, 0, mPaint);
+//            }
+//            canvas.rotate(1);
+//        }
+//        canvas.restore();
+//
+//        canvas.save();
+//        //画刻度文字
+//        canvas.translate(mCircleX,mCircleY);
+//        for (int i=0;i<12;i++){
+//            if (i == 0) {
+//                drawNum(canvas, i * 30, 12 + "", mPaint);
+//            } else {
+//                drawNum(canvas, i * 30, i + "", mPaint);
+//            }
+//        }
+//        canvas.restore();
     }
 
+
+    /**
+     * 画指针
+     * @param canvas
+     */
     private void drawPointer(Canvas canvas){
         canvas.translate(getWidth()/2,getHeight()/2);
         //秒针
@@ -166,7 +191,7 @@ public class ClockView extends View {
         canvas.restore();
         //分针
         canvas.save();
-        mPaint.setColor(Color.BLACK);
+        mPaint.setColor(Color.WHITE);
         mPaint.setStyle(Paint.Style.STROKE);
         mPaint.setStrokeWidth(4);
         canvas.rotate(mMinDegree);
@@ -204,17 +229,17 @@ public class ClockView extends View {
     }
 
     //1:30:30 时针的角度为1*30 = 30度；分针的角度为30*6 = 180度；秒针的角度为30*6=180度；
-    public void setTime(int hour,int min, int second){
+    public void setTime(int hour,int min, int second,Calendar curTime){
         if (hour >= 24 || hour < 0 || min >= 60 || min < 0 || second >= 60 || second < 0) {
             Toast.makeText(getContext(), "时间不合法", Toast.LENGTH_SHORT).show();
             return;
         }
-        if (hour >= 12) {//这里我们采用24小时制
-            mIsNight = true;//添加一个变量，用于记录是否为下午。
-            mHourDegree = (hour + min * 1.0f/60f + second * 1.0f/3600f - 12)*30f;
-        } else {
+        if(curTime.get(Calendar.AM_PM) == Calendar.AM){
             mIsNight = false;
             mHourDegree = (hour + min * 1.0f/60f + second * 1.0f/3600f )*30f;
+        }else {
+            mIsNight = true;//添加一个变量，用于记录是否为下午。
+            mHourDegree = (hour + min * 1.0f/60f + second * 1.0f/3600f - 12)*30f;
         }
         mMinDegree = (min + second * 1.0f/60f) *6f;
         mSecondDegree = second * 6f;
@@ -239,5 +264,41 @@ public class ClockView extends View {
     }
     public int getSecond() {//获取秒钟
         return (int) (getTimeTotalSecond() - getHour() * 3600 - getMin() * 60);
+    }
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        setMeasuredDimension(measuredWidth(widthMeasureSpec),measuredHeight(heightMeasureSpec));
+    }
+
+    private int measuredWidth (int measureSpec){
+        int result;
+        int specSize = MeasureSpec.getSize(measureSpec);
+        int specMode = MeasureSpec.getMode(measureSpec);
+        if(specMode == MeasureSpec.EXACTLY) {
+            result = specSize;
+        }else {
+            result = 500;
+            if(specMode == MeasureSpec.AT_MOST){
+                result = Math.min(result,specSize);
+            }
+        }
+        return  result;
+    }
+
+    private int measuredHeight(int measureSpec){
+        int result;
+        int specSize = MeasureSpec.getSize(measureSpec);
+        int specMode = MeasureSpec.getMode(measureSpec);
+        if(specMode == MeasureSpec.EXACTLY) {
+            result = specSize;
+        }else {
+            result = 500;
+            if(specMode == MeasureSpec.AT_MOST){
+                result = Math.min(result,specSize);
+            }
+        }
+        return  result;
     }
 }
