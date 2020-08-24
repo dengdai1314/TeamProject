@@ -33,7 +33,13 @@ public class LockScreenService extends Service {
         mIntentFilter.addAction(Intent.ACTION_SCREEN_OFF);
         mIntentFilter.addAction(Intent.ACTION_TIME_TICK);
 
-        mIntentFilter.setPriority(IntentFilter.MAX_);
+        mIntentFilter.setPriority(Integer.MAX_VALUE);
+        if(null == mlockScreenReceiver){
+            mlockScreenReceiver = new LockScreenReceiver();
+            mIntentFilter.setPriority(Integer.MAX_VALUE);
+            registerReceiver(mlockScreenReceiver,mIntentFilter);
+
+        }
 
         return super.onStartCommand(intent, flags, startId);
     }
